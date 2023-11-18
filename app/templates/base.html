@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% if title %}
+      <title>{{ title }}</title>
+    {% else %}
+      <title> No title specified</title>
+    {% endif %}
+  </head>
+
+  <body>
+    <nav>
+      <a href="{{ url_for('index') }}">Home</a>
+    </nav>
+    <div>
+      {% block content %}{% endblock %}
+    </div>
+  </body>
+</html>
