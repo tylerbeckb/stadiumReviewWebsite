@@ -1,3 +1,14 @@
 {% extends "base.html" %}
 {% block content %}
+  <br>
+  <h1 class="title">FutReview</h1>
+  <section class="searchBar">
+    <div class="searchForm">
+        <h2>Search for Stadium</h2>
+      <form method="POST" name="searchForm">
+        {{ searchForm.hidden_tag() }}
+        {{ searchForm.stadName(class_='validate') }}
+      </form>
+    </div>
+  </section>
 {% endblock %}
