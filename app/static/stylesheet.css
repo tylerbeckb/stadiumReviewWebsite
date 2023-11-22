@@ -30,3 +30,23 @@ nav a:hover {
     line-height: 2;
     color: black;
 }
+
+.title {
+    text-align: center;
+    font-size: 50px;
+}
+
+.searchBar {
+    background-color: aqua;
+}
+
+.searchForm {
+    margin: 3%;
+    padding-bottom: 3%;
+}
+
+.validate {
+    border-radius: 30px;
+    border-style: none;
+    width: 35%;
+}
