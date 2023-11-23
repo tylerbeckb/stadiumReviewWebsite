@@ -1,12 +1,15 @@
 from flask import render_template, request, url_for
-from app import app, db
+from app import app, db, admin
+from flask_admin.contrib.sqla import ModelView
 from .form import SearchForm
 from app.models import User, Reviews, Stadiums
 from app.models import User, Reviews, Stadiums
 import csv
 import os
 
-
+admin.add_view(ModelView(Stadiums, db.session))
+admin.add_view(ModelView(User, db.session))
+admin.add_view(ModelView(Reviews, db.session))
 
 @app.route('/')
 def index():
@@ -29,7 +32,12 @@ def index():
                            title = 'Home',
                            searchForm = searchForm)
 
-@app.route('/admin')
+@app.route('/login')
+def login():
+    return render_template('login.html',
+                           title = 'Login')
+
+@app.route('/admin2')
 def admin():
     stadiums = Stadiums.query.all()
     users = User.query.all()
