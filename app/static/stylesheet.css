@@ -45,8 +45,9 @@ nav a:hover {
     padding-bottom: 3%;
 }
 
-.validate {
+.searchInput {
     border-radius: 30px;
     border-style: none;
     width: 35%;
+    padding-left: 10px;
 }
