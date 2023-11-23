@@ -17,11 +17,11 @@ class Reviews(db.Model):
     stadiumName = db.Column(db.String(100), db.ForeignKey('stadiums.name'))
 
     def __repr__(self):
-        return f"User('{self.title}','{self.review}','{self.date}','{self.rating}')"
+        return f"Review('{self.title}','{self.review}','{self.date}','{self.rating}')"
 
 class Stadiums(db.Model):
     name = db.Column(db.String(100), index = True, unique = True, primary_key = True)
     club = db.Column(db.String(100))
 
     def __repr__(self):
-        return f"User('{self.name}','{self.club}')"
+        return f"Stadiumn('{self.name}','{self.club}')"
