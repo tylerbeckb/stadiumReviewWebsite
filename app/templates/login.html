@@ -9,11 +9,11 @@
             {{ loginForm.hidden_tag() }}
             {{ loginForm.loginName(class_='loginFormStyle') }}
             {{ loginForm.loginPassword(class_='loginFormStyle') }}
-            <input type="submit" value="Login" class="btn">
+            <input type="submit" value="Login" class="loginSubmit">
           </form>
       </div>
       <div class="col50">
-        <p>5</p>
+        <img src="{{ url_for('static',filename='loginBack.jpg') }}" alt="Girona FC Stadium" class="loginImg">
       </div>
     </div>
   </body>
