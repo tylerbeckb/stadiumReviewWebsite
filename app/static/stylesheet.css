@@ -56,3 +56,33 @@ nav a:hover {
     float: left;
     width: 50%;
 }
+
+.singleCol {
+    width: 70%;
+    align-items: center;
+    text-align: center;
+    margin: auto;
+}
+
+.loginShape {
+    margin: auto;
+    width: 60%;
+    background-color: white;
+    box-shadow: 3px 3px 3px 3px lightgrey;
+    overflow: hidden;
+}
+
+.loginFormStyle {
+    margin-bottom: 15px;
+    border: solid;
+    border-radius: 5px;
+    padding-left: 5px;
+}
+
+.loginBackground {
+    background-color: rgb(221, 220, 220);
+    align-items: center;
+    text-align: center;
+    margin: auto;
+    height: 100%;
+}
