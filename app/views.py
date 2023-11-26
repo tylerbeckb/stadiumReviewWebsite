@@ -1,8 +1,7 @@
 from flask import render_template, request, url_for
 from app import app, db, admin
 from flask_admin.contrib.sqla import ModelView
-from .form import SearchForm
-from app.models import User, Reviews, Stadiums
+from .form import SearchForm, LoginForm
 from app.models import User, Reviews, Stadiums
 import csv
 import os
@@ -34,17 +33,12 @@ def index():
 
 @app.route('/login')
 def login():
+    loginForm = LoginForm()
     return render_template('login.html',
-                           title = 'Login')
+                           title = 'Login',
+                           loginForm = loginForm)
 
-@app.route('/admin2')
-def admin():
-    stadiums = Stadiums.query.all()
-    users = User.query.all()
-    reviews = Reviews.query.all()
-
-    return render_template('admin.html',
-                           title = 'Admin',
-                           stadiums = stadiums,
-                           users = users,
-                           reviews = reviews)
+@app.route('/signup')
+def signup():
+    return render_template('signup.html',
+                           title = 'SignUp')
