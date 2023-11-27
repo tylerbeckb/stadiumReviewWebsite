@@ -1,10 +1,10 @@
-from flask import render_template, request, url_for, redirect
+from flask import render_template, request, url_for, redirect, flash
 from app import app, db, admin
 from flask_admin.contrib.sqla import ModelView
 from .form import SearchForm, LoginForm, SignupForm
 from app.models import User, Reviews, Stadiums
 from flask_login import login_user, LoginManager, login_required, logout_user, current_user
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 
 import csv
 import os
@@ -47,9 +47,24 @@ def login():
     loginForm = LoginForm()
     if loginForm.validate_on_submit():
         user = User.query.filter_by(username = request.form['loginName']).first()
+        if user:
+            if check_password_hash(user.password, request.form['loginPassword']):
+                login_user(user)
+                return redirect(url_for('/profile'))
+            else:
+                flash("Wrong Password")
+        else:
+            flash("Wrong Username")
     return render_template('login.html',
                            title = 'Login',
                            loginForm = loginForm)
+
+@app.route('/logout', methods = ["GET","POST"])
+@login_required
+def logout():
+    logout_user()
+    flash("Logged Out")
+    return redirect(url_for('login'))
 
 @app.route('/signup', methods = ["GET","POST"])
 def signup():
