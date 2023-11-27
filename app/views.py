@@ -1,7 +1,7 @@
 from flask import render_template, request, url_for
 from app import app, db, admin
 from flask_admin.contrib.sqla import ModelView
-from .form import SearchForm, LoginForm
+from .form import SearchForm, LoginForm, SignupForm
 from app.models import User, Reviews, Stadiums
 import csv
 import os
@@ -40,5 +40,7 @@ def login():
 
 @app.route('/signup')
 def signup():
+    signUpForm = SignupForm()
     return render_template('signup.html',
-                           title = 'SignUp')
+                           title = 'SignUp',
+                           signUpForm = signUpForm)
