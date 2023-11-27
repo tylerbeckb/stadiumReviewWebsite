@@ -121,3 +121,21 @@ nav a:hover {
     position: relative;
     object-fit: cover;
 }
+
+.logoutBtn {
+    width: 125px;
+    text-decoration: none;
+    padding: 1%;
+    text-align: center;
+    background-color: rgb(253, 43, 43);
+    border: none;
+    color: black;
+    border-radius: 20px;
+}
+
+.logoutBtn:hover {
+    transition: ease-in 0.1s;
+    transform: scale(1.1);
+    background-color: rgb(253, 100, 100);
+    border-color: rgb(253, 100, 100);
+}
