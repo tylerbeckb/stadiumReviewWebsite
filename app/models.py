@@ -3,6 +3,7 @@ from app import db
 class User(db.Model):
     username = db.Column(db.String(100), index = True, unique = True, primary_key = True)
     password = db.Column(db.String(100))
+    name = db.Column(db.String(100))
 
     def __repr__(self):
         return f"User('{self.username}','{self.password}')"
