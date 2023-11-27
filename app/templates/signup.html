@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+  <body>
+    <br><br>
+    <div class="loginShape">
+      <div class="singleCol">
+        <p class="loginTitle">SignUp</p>
+        <form method="POST" name="signUpForm">
+          {{ signUpForm.hidden_tag() }}
+          {{ signUpForm.signName(class_='loginFormStyle') }}
+          <br>
+          {{ signUpForm.signUsername(class_='loginFormStyle') }}
+          <br>
+          {{ signUpForm.signPassword(class_='loginFormStyle') }} <br>
+          <p>Already have an account? <a href="{{ url_for('login') }}">Login</a></p>
+          <input type="submit" value="Create" class="loginSubmit">
+        </form>
+      </div>
+    </div>
+  </body>
+{% endblock %}
