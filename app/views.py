@@ -4,14 +4,16 @@ from flask_admin.contrib.sqla import ModelView
 from .form import SearchForm, LoginForm, SignupForm
 from app.models import User, Reviews, Stadiums
 from flask_login import login_user, LoginManager, login_required, logout_user, current_user
+from werkzeug.security import generate_password_hash
+
 import csv
 import os
 
-loginManager = LoginManager()
-loginManager.init_app(app)
-loginManager.login_view = 'login'
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
 
-@loginManager.user_loader
+@login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
 
@@ -40,7 +42,7 @@ def index():
                            title = 'Home',
                            searchForm = searchForm)
 
-@app.route('/login')
+@app.route('/login', methods = ["GET","POST"])
 def login():
     loginForm = LoginForm()
     if loginForm.validate_on_submit():
@@ -49,14 +51,14 @@ def login():
                            title = 'Login',
                            loginForm = loginForm)
 
-@app.route('/signup', methods=["GET","POST"])
+@app.route('/signup', methods = ["GET","POST"])
 def signup():
     signUpForm = SignupForm()
     if signUpForm.validate_on_submit():
         signName = request.form['signName']
         signUsername = request.form['signUsername']
         signPassword = request.form['signPassword']
-        record = User(name = signName, username = signUsername, password = signPassword)
+        record = User(name = signName, username = signUsername, password = generate_password_hash(signPassword))
         db.session.add(record)
         db.session.commit()
         return redirect(url_for('login'))
