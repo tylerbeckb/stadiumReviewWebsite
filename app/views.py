@@ -9,11 +9,11 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import csv
 import os
 
-login_manager = LoginManager()
-login_manager.init_app(app)
-login_manager.login_view = 'login'
+loginManager = LoginManager()
+loginManager.init_app(app)
+loginManager.login_view = 'login'
 
-@login_manager.user_loader
+@loginManager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
 
@@ -50,7 +50,7 @@ def login():
         if user:
             if check_password_hash(user.password, request.form['loginPassword']):
                 login_user(user)
-                return redirect(url_for('/profile'))
+                return redirect(url_for('profile'))
             else:
                 flash("Wrong Password")
         else:
@@ -65,6 +65,12 @@ def logout():
     logout_user()
     flash("Logged Out")
     return redirect(url_for('login'))
+
+@app.route('/profile', methods = ["GET","POST"])
+@login_required
+def profile():
+    return render_template('profile.html',
+                           title = 'Profile')
 
 @app.route('/signup', methods = ["GET","POST"])
 def signup():
