@@ -34,12 +34,17 @@ def index():
             db.session.add(record)
             db.session.commit()
     '''
+    reviews = []
+    stadiums = Stadiums.query.all()
+    stadiums = [i.name for i in stadiums]
     searchForm = SearchForm()
     if searchForm.validate_on_submit():
         searchName = request.form['stadName']
     return render_template('index.html', 
                            title = 'Home',
-                           searchForm = searchForm)
+                           searchForm = searchForm,
+                           stadiums = stadiums,
+                           reviews = reviews)
 
 @app.route('/login', methods = ["GET","POST"])
 def login():
@@ -88,3 +93,8 @@ def signup():
     return render_template('signup.html',
                            title = 'SignUp',
                            signUpForm = signUpForm)
+
+@app.route('/searchbar', methods = ["POST"])
+def searchbar():
+    return render_template('index.html',
+                           title = 'SignUp')
