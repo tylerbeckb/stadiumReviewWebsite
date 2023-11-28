@@ -5,7 +5,6 @@ from .form import SearchForm, LoginForm, SignupForm
 from app.models import User, Reviews, Stadiums
 from flask_login import login_user, LoginManager, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
-
 import csv
 import os
 
@@ -79,10 +78,13 @@ def signup():
         signName = request.form['signName']
         signUsername = request.form['signUsername']
         signPassword = request.form['signPassword']
-        record = User(name = signName, username = signUsername, password = generate_password_hash(signPassword))
-        db.session.add(record)
-        db.session.commit()
-        return redirect(url_for('login'))
+        exists = User.query.filter_by(username = signUsername).first()
+        if exists == None:
+            record = User(name = signName, username = signUsername, password = generate_password_hash(signPassword))
+            db.session.add(record)
+            db.session.commit()
+            return redirect(url_for('login'))
+        flash("Username already exisits")
     return render_template('signup.html',
                            title = 'SignUp',
                            signUpForm = signUpForm)
