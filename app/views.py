@@ -1,7 +1,7 @@
 from flask import render_template, request, url_for, redirect, flash
 from app import app, db, admin
 from flask_admin.contrib.sqla import ModelView
-from .form import SearchForm, LoginForm, SignupForm
+from .form import SearchForm, LoginForm, SignupForm, ReviewForm
 from app.models import User, Reviews, Stadiums
 from flask_login import login_user, LoginManager, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -98,3 +98,10 @@ def signup():
 def searchbar():
     return render_template('index.html',
                            title = 'SignUp')
+
+@app.route('/review', methods = ["GET","POST"])
+def review():
+    reviewForm = ReviewForm()
+    return render_template('review.html',
+                          title = 'Review',
+                          reviewForm = reviewForm)
