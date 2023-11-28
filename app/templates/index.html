@@ -4,11 +4,23 @@
   <h1 class="title">FutReview</h1>
   <section class="searchBar">
     <div class="searchForm">
-        <h2>Search for Stadium</h2>
-      <form method="POST" name="searchForm">
-        {{ searchForm.hidden_tag() }}
-        {{ searchForm.stadName(class_='searchInput') }}
+      <h2>Search for Stadium</h2>
+      <form action="/searchbar", method="POST">
+        <input type="text" id="stads" class="searchInput">
       </form>
+
+      <script>
+        $(function() {
+          var stadNames = [
+            {% for name in stadiums %}
+              "{{name}}",
+            {% endfor %}
+          ];
+          $( "#stads" ).autocomplete({
+            source: stadNames
+          });
+        });
+      </script>
     </div>
   </section>
 {% endblock %}
