@@ -1,8 +1,26 @@
 {% extends "base.html" %}
 {% block content %}
-<br><br>
-<form method="POST" name="reviewForm">
-    {{ reviewForm.hidden_tag() }}
-    {{ reviewForm.rating() }}
-</form>
+  <br><br>
+  <body class="reviewBackground">
+    <section class="loginShape reviewColour">
+      <div class="reviewStyle">
+        <span>Rate the Stadium</span>
+        <form method="POST" name="reviewForm">
+          {{ reviewForm.hidden_tag() }}
+          {% for subfield in reviewForm.rating %}
+          <tr>
+            <td>{{ subfield }}</td>
+            <td>{{ subfield.label }}</td>
+          </tr>
+          {% endfor %}
+          <br><br>
+          {{ reviewForm.title(class_='reviewFormStyle') }} <br>
+          {{ reviewForm.reviewText(class_='reviewFormStyle') }} <br>
+          <span>Date of Visit</span><br>
+          {{ reviewForm.date(class_='reviewFormStyle') }} <br>
+          <input type="submit" value="Submit" class="loginSubmit">
+        </form>
+      </div>
+    </section>
+</body>
 {% endblock %}
