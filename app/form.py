@@ -16,8 +16,7 @@ class LoginForm(FlaskForm):
     loginPassword = StringField('loginPassword', validators = [DataRequired(), Length(min = 0, max = 100)], render_kw={"placeholder": "Password"})
 
 class ReviewForm(FlaskForm):
-    stadName = StringField('stadName', validators = [DataRequired()])
-    rating = RadioField('rating', choices=[('1','☆'),('2','☆'),('3','☆'),('4','☆'),('5','☆')])
+    rating = RadioField('rating', choices=[('1','☆'),('2','☆'),('3','☆'),('4','☆'),('5','☆')], validators = [DataRequired()])
     title = StringField('title', validators = [DataRequired(), Length(min = 0, max = 100)], render_kw={"placeholder": "Title of Review"})
     date = DateField('date', validators = [DataRequired()])
     reviewText = StringField('reviewText',  validators = [DataRequired()], widget = TextArea(), render_kw={"placeholder": "Tell us about your visit"})

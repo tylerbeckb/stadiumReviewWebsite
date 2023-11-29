@@ -5,6 +5,7 @@ from .form import SearchForm, LoginForm, SignupForm, ReviewForm
 from app.models import User, Reviews, Stadiums
 from flask_login import login_user, LoginManager, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import datetime
 import csv
 import os
 
@@ -115,8 +116,9 @@ def review(name):
         rating = request.form['rating']
         title = request.form['title']
         date = request.form['date']
+        dateObject = datetime.strptime(date, '%Y-%m-%d')
         text = request.form['reviewText']
-        record = Reviews(title = title, review = text, date = date, rating = rating, stadiumId = stadId, userId = current_user.id)
+        record = Reviews(title = title, review = text, date = dateObject, rating = rating, stadiumId = stadId, userId = current_user.id)
         db.session.add(record)
         db.session.commit()
         return redirect(url_for('index'))
