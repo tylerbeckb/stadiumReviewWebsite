@@ -97,6 +97,10 @@ def signup():
 @app.route('/searchbar', methods = ["POST"])
 def searchbar():
     stadName = request.form['stadName']
+    exists = Stadiums.query.filter_by(name = stadName).first()
+    if exists == None:
+        flash("Stadium does not exist")
+        return redirect(url_for('index'))
     return render_template('stadReviews.html',
                            title = stadName,
                            stadName = stadName)

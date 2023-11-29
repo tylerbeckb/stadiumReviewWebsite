@@ -1,12 +1,24 @@
 {% extends "base.html" %}
 {% block content %}
   <br><br>
+  <div>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+  </div>
+
   <h1 class="title">FutReview</h1>
   <section class="searchBar">
     <div class="searchForm">
       <h2>Search for Stadium</h2>
       <form action="/searchbar", method="POST">
-        <input type="text" id="stads" class="searchInput">
+        <input name = "stadName" type = "text" id = "stads" class = "searchInput">
       </form>
 
       <script>
