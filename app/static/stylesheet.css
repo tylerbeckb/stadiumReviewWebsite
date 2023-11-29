@@ -156,3 +156,15 @@ nav a:hover {
 .reviewBackground {
     background-color: rgb(131, 236, 26);
 }
+
+.writeBtn {
+    text-align: left;
+    background-color: white;
+    padding: 2%;
+    border-radius: 10px;
+    padding-left: 5%;
+}
+
+.displayBackground {
+    background-color: rgb(225, 253, 183);
+}
