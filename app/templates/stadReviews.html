@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
-  <body>
+  <body class="displayBackground">
     <br><br>
     <section class="singleCol">
       <h2>{{ stadName }}</h2>
-      <div>
+      <div class="writeBtn">
         <a href="{{ url_for('review', name = stadName) }}">Write a Review</a>
       </div>
     </section>
