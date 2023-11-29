@@ -96,12 +96,26 @@ def signup():
 
 @app.route('/searchbar', methods = ["POST"])
 def searchbar():
-    return render_template('index.html',
-                           title = 'SignUp')
+    stadName = request.form['stadName']
+    return render_template('stadReviews.html',
+                           title = stadName,
+                           stadName = stadName)
 
-@app.route('/review', methods = ["GET","POST"])
-def review():
+@app.route('/review<name>', methods = ["GET","POST"])
+@login_required
+def review(name):
     reviewForm = ReviewForm()
+    stad = Stadiums.query.filter_by(name = name).first()
+    stadId = stad.id
+    if reviewForm.validate_on_submit():
+        rating = request.form['rating']
+        title = request.form['title']
+        date = request.form['date']
+        text = request.form['reviewText']
+        record = Reviews(title = title, review = text, date = date, rating = rating, stadiumId = stadId, userId = current_user.id)
+        db.session.add(record)
+        db.session.commit()
+        return redirect(url_for('index'))
     return render_template('review.html',
                           title = 'Review',
                           reviewForm = reviewForm)
