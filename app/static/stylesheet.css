@@ -173,7 +173,7 @@ nav a:hover {
     float: left;
 }
 
-.card {
+.displayCard {
     width: 45%;
     margin: auto;
 }
@@ -184,4 +184,24 @@ nav a:hover {
 
 .activeUser {
     color: goldenrod;
+}
+
+.editName {
+    background-color: whitesmoke;
+    margin-left: 15%;
+    width: 60%;
+    border: solid;
+    border-radius: 5px;
+    padding: 2%;
+    margin-top: 3%;
+}
+
+.profileCard {
+    width: 60%;
+    margin-top: 3%;
+    margin-left: 15%;
+}
+
+.deleteAccount {
+    margin-top: 5%;
 }
