@@ -8,5 +8,27 @@
         <a href="{{ url_for('review', name = stadName) }}">Write a Review</a>
       </div>
     </section>
+    {% for review in reviews %}
+      <br>
+      <div class="card">
+        <div class="card-header">
+          {% if review.user.username == current_user.username %}
+            <div class="activeUser">{{ review.user.name }}</div>
+          {% else %}
+            {{ review.user.name }} <br>
+          {% endif %}
+          {{ review.title }}
+        </div>
+        <div class="card-body reviewBody">
+          {% for i in range(0, review.rating) %}
+            <span class="starAlign">☆</span>
+          {% endfor %} 
+          <br>
+          {{ review.review }} <br> 
+          Date of Visit: {{ review.date }}
+        </div> 
+        <div class="card-footer">Like btn</div>
+      </div>
+      {% endfor %}
   </body>
 {% endblock %}
