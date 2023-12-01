@@ -39,8 +39,6 @@ def index():
     stadiums = Stadiums.query.all()
     stadiums = [i.name for i in stadiums]
     searchForm = SearchForm()
-    if searchForm.validate_on_submit():
-        searchName = request.form['stadName']
     return render_template('index.html', 
                            title = 'Home',
                            searchForm = searchForm,
@@ -102,9 +100,11 @@ def searchbar():
     if exists == None:
         flash("Stadium does not exist")
         return redirect(url_for('index'))
+    reviews = Reviews.query.filter_by(stadiumId = exists.id)
     return render_template('stadReviews.html',
                            title = stadName,
-                           stadName = stadName)
+                           stadName = stadName,
+                           reviews = reviews)
 
 @app.route('/review<name>', methods = ["GET","POST"])
 @login_required
