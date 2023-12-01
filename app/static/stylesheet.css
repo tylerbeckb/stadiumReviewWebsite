@@ -168,3 +168,20 @@ nav a:hover {
 .displayBackground {
     background-color: rgb(225, 253, 183);
 }
+
+.starAlign {
+    float: left;
+}
+
+.card {
+    width: 45%;
+    margin: auto;
+}
+
+.reviewBody {
+    font-size: 20px;
+}
+
+.activeUser {
+    color: goldenrod;
+}
