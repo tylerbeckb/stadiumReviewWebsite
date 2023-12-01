@@ -1,7 +1,7 @@
 from flask import render_template, request, url_for, redirect, flash
 from app import app, db, admin
 from flask_admin.contrib.sqla import ModelView
-from .form import SearchForm, LoginForm, SignupForm, ReviewForm
+from .form import SearchForm, LoginForm, SignupForm, ReviewForm, EditName
 from app.models import User, Reviews, Stadiums
 from flask_login import login_user, LoginManager, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -72,8 +72,23 @@ def logout():
 @app.route('/profile', methods = ["GET","POST"])
 @login_required
 def profile():
+    editName = EditName()
+    if editName.validate_on_submit():
+        newName = request.form['newName']
+        sameName = request.form['sameName']
+        if newName == sameName:
+            current_user.name = newName
+            db.session.commit()
+        else:
+            flash("The names are not the same")
+
+    reviews = Reviews.query.filter_by(userId = current_user.id)
+    empty = Reviews.query.filter_by(userId = current_user.id).first()
     return render_template('profile.html',
-                           title = 'Profile')
+                           title = 'Profile',
+                           editName = editName,
+                           reviews = reviews,
+                           empty = empty)
 
 @app.route('/signup', methods = ["GET","POST"])
 def signup():
@@ -101,10 +116,12 @@ def searchbar():
         flash("Stadium does not exist")
         return redirect(url_for('index'))
     reviews = Reviews.query.filter_by(stadiumId = exists.id)
+    empty = Reviews.query.filter_by(stadiumId = exists.id).first()
     return render_template('stadReviews.html',
                            title = stadName,
                            stadName = stadName,
-                           reviews = reviews)
+                           reviews = reviews,
+                           empty = empty)
 
 @app.route('/review<name>', methods = ["GET","POST"])
 @login_required
@@ -125,3 +142,16 @@ def review(name):
     return render_template('review.html',
                           title = 'Review',
                           reviewForm = reviewForm)
+
+@app.route('/deleteReview<id>', methods = ["GET","POST"])
+def deleteReview(id):
+    Reviews.query.filter_by(id = id).delete()
+    db.session.commit() 
+    return redirect('/profile')
+
+@app.route('/deleteAccount', methods = ["GET", "POST"])
+def deleteAccount():
+    Reviews.query.filter_by(userId = current_user.id).delete()
+    User.query.filter_by(id = current_user.id).delete()
+    db.session.commit()
+    return redirect('/login')
