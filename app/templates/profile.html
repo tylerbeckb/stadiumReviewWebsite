@@ -1,7 +1,74 @@
 {% extends "base.html" %}
 {% block content %}
-<br><br>
-<section class="singleCol">
-  <a href="{{ url_for('logout') }}" class="logoutBtn">Logout</a>
-</section>
-{% endblock %}
+<body onload="editName()">
+  <br><br>
+
+  <script>
+    function editName() {
+      $(document).ready(function() {
+        $("#editForm").slideUp();
+        $("#editBtn").click(function() {
+            $("#editForm").toggle();
+        })
+      })
+    }
+  </script>
+
+  <div>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+  </div>
+
+  <section class="singleCol">
+    {{ current_user.name }} <br>
+    {{ current_user.username }} <br>
+  </section>
+
+  <section class="col50">
+    <div class="editName">
+      <p class="card-body">Name: {{ current_user.name }}</p>
+      <button class="btn btn-primary" id="editBtn">Edit</button> <br><br>
+      <div id="editForm">
+        <form method="POST" name="editName">
+          {{ editName.hidden_tag() }}
+          {{ editName.newName(class_='loginFormStyle') }}
+          {{ editName.sameName(class_='loginFormStyle') }}
+          <input type="submit" value="Change" class="btn btn-primary">
+        </form>
+      </div>
+    </div>
+    <a href="{{ url_for('logout') }}" class="btn btn-danger">Logout</a>
+  </section>
+
+  <section class="col50">
+    {% for review in reviews %}
+      <div class="card profileCard">
+        <div class="card-header">
+          {{ review.title }}
+        </div>
+        <div class="card-body reviewBody">
+          {% for i in range(0, review.rating) %}
+            <span class="starAlign">☆</span>
+          {% endfor %} 
+          <br>
+          {{ review.review }} <br> 
+          Date of Visit: {{ review.date }}
+        </div> 
+        <div class="card-footer">
+          <a href="{{ url_for('deleteReview', id=review.id) }}" class="btn btn-primary">Delete</a>
+        </div>
+      </div>
+      {% endfor %}
+  </section>
+  <div class="singleCol">
+    <a href="{{ url_for('deleteAccount') }}" class="btn btn-danger deleteAccount">Delete Account</a>
+  </div>
+</body>
+  {% endblock %}
