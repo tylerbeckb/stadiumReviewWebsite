@@ -18,6 +18,7 @@ class Reviews(db.Model):
     rating = db.Column(db.Integer)
     userId = db.Column(db.Integer, db.ForeignKey('user.id'))
     stadiumId = db.Column(db.Integer, db.ForeignKey('stadiums.id'))
+    user = db.relationship('User', foreign_keys = [userId], backref = 'reviews')
 
     def __repr__(self):
         return f"Review('{self.title}','{self.review}','{self.date}','{self.rating}')"
