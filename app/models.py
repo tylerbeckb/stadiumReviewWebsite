@@ -35,3 +35,4 @@ class Likes(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     userId = db.Column(db.Integer, db.ForeignKey('user.id'))
     reviewId = db.Column(db.Integer, db.ForeignKey('reviews.id'))
+    review = db.relationship('Reviews', foreign_keys = [reviewId], backref = 'likes')
