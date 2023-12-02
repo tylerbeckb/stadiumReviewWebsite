@@ -2,12 +2,11 @@ from flask import render_template, request, url_for, redirect, flash
 from app import app, db, admin
 from flask_admin.contrib.sqla import ModelView
 from .form import SearchForm, LoginForm, SignupForm, ReviewForm, EditName
-from app.models import User, Reviews, Stadiums
+from app.models import User, Reviews, Stadiums, Likes
 from flask_login import login_user, LoginManager, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
-import csv
-import os
+import csv, os, json
 
 loginManager = LoginManager()
 loginManager.init_app(app)
@@ -20,6 +19,8 @@ def load_user(user_id):
 admin.add_view(ModelView(Stadiums, db.session))
 admin.add_view(ModelView(User, db.session))
 admin.add_view(ModelView(Reviews, db.session))
+admin.add_view(ModelView(Likes, db.session))
+
 
 @app.route('/')
 def index():
@@ -117,11 +118,15 @@ def searchbar():
         return redirect(url_for('index'))
     reviews = Reviews.query.filter_by(stadiumId = exists.id)
     empty = Reviews.query.filter_by(stadiumId = exists.id).first()
+    likes = Likes.query.all()
+    likeEmpty = Likes.query.first()
     return render_template('stadReviews.html',
                            title = stadName,
                            stadName = stadName,
                            reviews = reviews,
-                           empty = empty)
+                           empty = empty,
+                           likes = likes,
+                           likeEmpty = likeEmpty)
 
 @app.route('/review<name>', methods = ["GET","POST"])
 @login_required
@@ -155,3 +160,17 @@ def deleteAccount():
     User.query.filter_by(id = current_user.id).delete()
     db.session.commit()
     return redirect('/login')
+
+@app.route('/vote', methods = ["POST"])
+def vote():
+    data = json.loads(request.data)
+    reviewId = int(data.get('reviewId'))
+    if data.get('voteType') == "not":
+        record = Likes(userId = current_user.id, reviewId = reviewId)
+        db.session.add(record)
+        db.session.commit()
+    else:
+        Likes.query.filter_by(reviewId = reviewId, userId = current_user.id).delete()
+        db.session.commit()
+    return json.dumps({'status':'OK'})
+
