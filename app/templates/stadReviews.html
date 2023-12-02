@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
+  <head>
+    <script src="{{ url_for('static',filename='javascript.js') }}"></script>
+    <script src="https://kit.fontawesome.com/628ba3cb53.js" crossorigin="anonymous"></script>
+  </head>
   <body class="displayBackground">
     <br><br>
     <section class="singleCol">
@@ -29,9 +33,13 @@
           {% endfor %} 
           <br>
           {{ review.review }} <br> 
-          Date of Visit: {{ review.date }}
+          Date of Visit: {{ review.date }} <br>
         </div> 
-        <div class="card-footer">Like btn</div>
+        <div class="card-footer">
+          <a class="vote" id="{{ review.id }}">
+            <i class="fa-regular fa-thumbs-up"></i>
+          </a>
+        </div>
       </div>
       {% endfor %}
   </body>
