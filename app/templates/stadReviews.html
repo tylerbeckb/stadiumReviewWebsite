@@ -36,8 +36,23 @@
           Date of Visit: {{ review.date }} <br>
         </div> 
         <div class="card-footer">
+          {% if likeEmpty == None %}
+            <a class="vote" id="{{ review.id }}">
+              <i id="not" class="fa-regular fa-thumbs-up"></i>
+            </a>
+          {% endif %}
+          {% for like in likes %}
+            {% if like.reviewId == review.id and like.userId == current_user.id %}
+              <a class="vote" id="{{ review.id }}">
+                <i id="liked" class="fa-solid fa-thumbs-up"></i>
+              </a>
+            {% endif %}
+          {% endfor %}
           <a class="vote" id="{{ review.id }}">
-            <i class="fa-regular fa-thumbs-up"></i>
+            <i id="not" class="fa-regular fa-thumbs-up hidden"></i>
+          </a>
+          <a class="vote" id="{{ review.id }}">
+            <i id="liked" class="fa-solid fa-thumbs-up hidden"></i>
           </a>
         </div>
       </div>
