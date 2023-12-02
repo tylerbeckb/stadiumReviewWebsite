@@ -44,14 +44,22 @@
         </form>
       </div>
     </div>
-    <a href="{{ url_for('logout') }}" class="btn btn-danger">Logout</a>
+    <a href="{{ url_for('logout') }}" class="btn btn-danger logoutBtn">Logout</a>
   </section>
 
   <section class="col50">
+    {% if empty == None %}
+      <p class="noReviews">You have no active reviews</p>
+    {% endif %}
     {% for review in reviews %}
       <div class="card profileCard">
         <div class="card-header">
-          {{ review.title }}
+          {{ review.title }} <br>
+          {% for like in countLikes %}
+            {% if like.reviewId == review.id %}
+              {{ like[1] }} <span>Likes</span>
+            {% endif %}
+          {% endfor %}
         </div>
         <div class="card-body reviewBody">
           {% for i in range(0, review.rating) %}
@@ -67,8 +75,8 @@
       </div>
       {% endfor %}
   </section>
-  <div class="singleCol">
-    <a href="{{ url_for('deleteAccount') }}" class="btn btn-danger deleteAccount">Delete Account</a>
+  <div class="singleCol deleteAccount">
+    <a href="{{ url_for('deleteAccount') }}" class="btn btn-danger deleteBtn">Delete Account</a>
   </div>
 </body>
   {% endblock %}
