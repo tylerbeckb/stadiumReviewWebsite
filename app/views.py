@@ -6,6 +6,7 @@ from app.models import User, Reviews, Stadiums, Likes
 from flask_login import login_user, LoginManager, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
+from sqlalchemy import func
 import csv, os, json
 
 loginManager = LoginManager()
@@ -83,13 +84,16 @@ def profile():
         else:
             flash("The names are not the same")
 
+    likes = Likes.query.filter_by(userId = current_user.id)
+    countLikes = db.session.query(Likes.reviewId, func.count(Likes.id)).group_by(Likes.reviewId).all()
     reviews = Reviews.query.filter_by(userId = current_user.id)
     empty = Reviews.query.filter_by(userId = current_user.id).first()
     return render_template('profile.html',
                            title = 'Profile',
                            editName = editName,
                            reviews = reviews,
-                           empty = empty)
+                           empty = empty,
+                           countLikes = countLikes)
 
 @app.route('/signup', methods = ["GET","POST"])
 def signup():
