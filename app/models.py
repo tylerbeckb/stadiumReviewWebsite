@@ -35,4 +35,3 @@ class Likes(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     userId = db.Column(db.Integer, db.ForeignKey('user.id'))
     reviewId = db.Column(db.Integer, db.ForeignKey('reviews.id'))
-    stadId = db.Column(db.Integer, db.ForeignKey('stadiums.id'))
