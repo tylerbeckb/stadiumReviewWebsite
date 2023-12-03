@@ -27,11 +27,11 @@
   </div>
 
   <section class="singleCol">
-    {{ current_user.name }} <br>
-    {{ current_user.username }} <br>
+    <span>Hello </span>{{ current_user.name }} <br><br>
+    <a href="{{ url_for('logout') }}" class="btn btn-danger">Logout</a> <br>
   </section>
 
-  <section class="col50">
+  <section class="singleCol">
     <div class="editName">
       <p class="card-body">Name: {{ current_user.name }}</p>
       <button class="btn btn-primary" id="editBtn">Edit</button> <br><br>
@@ -44,10 +44,10 @@
         </form>
       </div>
     </div>
-    <a href="{{ url_for('logout') }}" class="btn btn-danger logoutBtn">Logout</a>
   </section>
 
   <section class="col50">
+    <h3 class="reviewStyle mostLikedCard">Your reviews</h3>
     {% if empty == None %}
       <p class="noReviews">You have no active reviews</p>
     {% endif %}
@@ -75,8 +75,31 @@
       </div>
       {% endfor %}
   </section>
-  <div class="singleCol deleteAccount">
-    <a href="{{ url_for('deleteAccount') }}" class="btn btn-danger deleteBtn">Delete Account</a>
-  </div>
+
+  <section class="col50">
+    <h3 class="reviewStyle mostLikedCard">Liked Reviews</h3>
+    {% if likedReviewEmpty == None %}
+      <p>No liked reviews</p>
+    {% endif %}
+    {% for likeReview in likedReview %}
+      <div class="card profileCard">
+        <div class="card-header">
+          {{ likeReview.review.title }} <br>
+        </div>
+        <div class="card-body reviewBody">
+          {% for i in range(0, likeReview.review.rating) %}
+            <span class="starAlign">☆</span>
+          {% endfor %} 
+          <br>
+          {{ likeReview.review.review }} <br> 
+          Date of Visit: {{ likeReview.review.date }}
+        </div> 
+      </div>
+    {% endfor %}
+    <div class="deleteAccount">
+      <a href="{{ url_for('deleteAccount') }}" class="btn btn-danger deleteBtn">Delete Account</a>
+    </div>
+  </section>
+
 </body>
   {% endblock %}
