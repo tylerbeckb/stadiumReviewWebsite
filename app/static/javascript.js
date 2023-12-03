@@ -1,6 +1,5 @@
 $(document).ready(function() {
     var csrf_token = $('meta[name=csrf-token]').attr('content');
-    $(".hidden").hide()
     $.ajaxSetup({
         beforeSend: function(xhr, settings) {
             if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
@@ -10,10 +9,18 @@ $(document).ready(function() {
     });
 
     $("a.vote").on("click", function() {
-        var clicked_obj = $(this);
-
         var reviewId = $(this).attr('id');
-        var voteType = $(this).children()[0].id;
+        var i = $(this).find('i');
+        if(i.hasClass('fa-regular')) {
+            i.addClass("fa-solid")
+            i.removeClass("fa-regular")
+            var voteType = "not"
+        }
+        else {
+            i.addClass("fa-regular")
+            i.removeClass("fa-solid")
+            var voteType = "liked"
+        }
 
         $.ajax({
             url: '/vote',
@@ -23,15 +30,6 @@ $(document).ready(function() {
             dataType: "json",
             success: function(response){
                 console.log(response)
-
-                if(voteType == "not") {
-                    $("#liked").show()
-                    $("#not").hide()
-                }
-                else {
-                    $("#liked").hide()
-                    $("#not").show()
-                }
             },
             error: function(error){
                 console.log(error);
