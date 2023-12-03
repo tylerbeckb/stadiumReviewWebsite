@@ -37,11 +37,11 @@ nav a:hover {
 }
 
 .searchBar {
-    background-color: aqua;
+    background-color: lime;
 }
 
 .searchForm {
-    margin: 3%;
+    margin-left: 3%;
     padding-bottom: 3%;
 }
 
@@ -122,24 +122,6 @@ nav a:hover {
     object-fit: cover;
 }
 
-.logoutBtn {
-    width: 125px;
-    text-decoration: none;
-    padding: 1%;
-    text-align: center;
-    background-color: rgb(253, 43, 43);
-    border: none;
-    color: black;
-    border-radius: 20px;
-}
-
-.logoutBtn:hover {
-    transition: ease-in 0.1s;
-    transform: scale(1.1);
-    background-color: rgb(253, 100, 100);
-    border-color: rgb(253, 100, 100);
-}
-
 .reviewStyle {
     text-align: center;
 }
@@ -202,6 +184,39 @@ nav a:hover {
     margin-left: 15%;
 }
 
-.deleteAccount {
+.deleteBtn {
     margin-top: 5%;
+}
+
+.noReviews {
+    margin-top: 15%;
+    text-align: center;
+}
+
+.deleteAccount {
+    width: 100%;
+}
+
+.logoutBtn {
+    align-items: center;
+    margin: auto;
+    margin-left: 35%;
+    margin-top: 5%;
+}
+
+.marBot {
+    margin-bottom: 5%;
+}
+
+.mostLiked {
+    width: 33%;
+    float: left;
+}
+
+.mostLikedCard {
+    margin: 5%;
+}
+
+.mostLikedTitle {
+    margin: 3%;
 }
