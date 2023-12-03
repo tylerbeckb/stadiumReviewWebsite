@@ -29,21 +29,20 @@
   <section class="singleCol">
     <span>Hello </span>{{ current_user.name }} <br><br>
     <a href="{{ url_for('logout') }}" class="btn btn-danger">Logout</a> <br>
-  </section>
-
-  <section class="singleCol">
+    
     <div class="editName">
       <p class="card-body">Name: {{ current_user.name }}</p>
       <button class="btn btn-primary" id="editBtn">Edit</button> <br><br>
       <div id="editForm">
         <form method="POST" name="editName">
           {{ editName.hidden_tag() }}
-          {{ editName.newName(class_='loginFormStyle') }}
-          {{ editName.sameName(class_='loginFormStyle') }}
+          {{ editName.newName(class_='loginFormStyle') }} <br>
+          {{ editName.sameName(class_='loginFormStyle') }} <br>
           <input type="submit" value="Change" class="btn btn-primary">
         </form>
       </div>
     </div>
+    <a href="{{ url_for('deleteAccount') }}" class="btn btn-danger deleteBtn">Delete Account</a>
   </section>
 
   <section class="col50">
@@ -57,7 +56,7 @@
           {{ review.title }} <br>
           {% for like in countLikes %}
             {% if like.reviewId == review.id %}
-              {{ like[1] }} <span>Likes</span>
+              <span>Likes: </span>{{ like[1] }}
             {% endif %}
           {% endfor %}
         </div>
@@ -96,10 +95,6 @@
         </div> 
       </div>
     {% endfor %}
-    <div class="deleteAccount">
-      <a href="{{ url_for('deleteAccount') }}" class="btn btn-danger deleteBtn">Delete Account</a>
-    </div>
   </section>
-
 </body>
   {% endblock %}
