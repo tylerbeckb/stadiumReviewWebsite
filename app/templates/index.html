@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-  <br><br>
+  <br>
   <div>
     {% with messages = get_flashed_messages() %}
       {% if messages %}
@@ -13,19 +13,22 @@
     {% endwith %}
   </div>
 
-  <h1 class="title">FutReview</h1>
+  
   <section class="searchBar">
     <div class="searchForm">
+      <br>
       <h2>Search for Stadium</h2>
+      <br>
       <form action="/searchbar", method="POST">
         <input name = "stadName" type = "text" id = "stads" class = "searchInput">
       </form>
+      <br>
 
       <script>
         $(function() {
           var stadNames = [
             {% for name in stadiums %}
-              "{{name}}",
+              "{{ name }}",
             {% endfor %}
           ];
           $( "#stads" ).autocomplete({
@@ -35,4 +38,30 @@
       </script>
     </div>
   </section>
+    <h3 class="mostLikedTitle">Most Liked</h3>
+    {% if not mostLiked %}
+      <p class="mostLikedTitle">No reviews have been liked</p>
+    {% endif %}
+    {% for review in reviews %}
+      {% for like in mostLiked %}
+        {% if review.id == like[0] %}
+        <section class="mostLiked">
+        <div class="card mostLikedCard">
+          <div class="card-header">
+            {{ review.title }} <br>
+          </div>
+          <div class="card-body reviewBody">
+            {% for i in range(0, review.rating) %}
+              <span class="starAlign">☆</span>
+            {% endfor %} 
+            <br>
+            {{ review.review }} <br> 
+            Date of Visit: {{ review.date }}
+          </div> 
+        </div>
+        {% endif %}
+      {% endfor %}
+      </section>
+    {% endfor %}
+
 {% endblock %}
