@@ -37,15 +37,17 @@ def index():
             db.session.add(record)
             db.session.commit()
     '''
-    reviews = []
+    reviews = Reviews.query.all()
     stadiums = Stadiums.query.all()
     stadiums = [i.name for i in stadiums]
     searchForm = SearchForm()
+    mostLiked = db.session.query(Likes.reviewId, func.count(Likes.id)).group_by(Likes.reviewId).order_by(func.count(Likes.id).desc()).limit(3).all()
     return render_template('index.html', 
                            title = 'Home',
                            searchForm = searchForm,
                            stadiums = stadiums,
-                           reviews = reviews)
+                           reviews = reviews,
+                           mostLiked = mostLiked)
 
 @app.route('/login', methods = ["GET","POST"])
 def login():
@@ -84,7 +86,8 @@ def profile():
         else:
             flash("The names are not the same")
 
-    likes = Likes.query.filter_by(userId = current_user.id)
+    likedReview = Likes.query.filter_by(userId = current_user.id)
+    likedReviewEmpty = Likes.query.filter_by(userId = current_user.id).first()
     countLikes = db.session.query(Likes.reviewId, func.count(Likes.id)).group_by(Likes.reviewId).all()
     reviews = Reviews.query.filter_by(userId = current_user.id)
     empty = Reviews.query.filter_by(userId = current_user.id).first()
@@ -93,7 +96,9 @@ def profile():
                            editName = editName,
                            reviews = reviews,
                            empty = empty,
-                           countLikes = countLikes)
+                           countLikes = countLikes,
+                           likedReview = likedReview,
+                           likedReviewEmpty = likedReviewEmpty)
 
 @app.route('/signup', methods = ["GET","POST"])
 def signup():
@@ -123,6 +128,10 @@ def searchbar():
     reviews = Reviews.query.filter_by(stadiumId = exists.id)
     empty = Reviews.query.filter_by(stadiumId = exists.id).first()
     likes = Likes.query.all()
+    likedId= []
+    currentUserLike = Likes.query.filter_by(userId = current_user.id)
+    for like in currentUserLike:
+        likedId.append(like.review.id)
     likeEmpty = Likes.query.first()
     return render_template('stadReviews.html',
                            title = stadName,
@@ -130,7 +139,8 @@ def searchbar():
                            reviews = reviews,
                            empty = empty,
                            likes = likes,
-                           likeEmpty = likeEmpty)
+                           likeEmpty = likeEmpty,
+                           likedId = likedId)
 
 @app.route('/review<name>', methods = ["GET","POST"])
 @login_required
@@ -155,6 +165,7 @@ def review(name):
 @app.route('/deleteReview<id>', methods = ["GET","POST"])
 def deleteReview(id):
     Reviews.query.filter_by(id = id).delete()
+    Likes.query.filter_by(id = id).delete()
     db.session.commit() 
     return redirect('/profile')
 
