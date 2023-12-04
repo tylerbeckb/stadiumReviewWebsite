@@ -13,7 +13,6 @@
     {% endwith %}
   </div>
 
-  
   <section class="searchBar">
     <div class="searchForm">
       <br>
@@ -48,7 +47,12 @@
         <section class="mostLiked">
         <div class="card mostLikedCard">
           <div class="card-header">
-            {{ review.title }} <br>
+            {% if review.user.username == current_user.username %}
+              <div class="activeUser">{{ review.user.name }}</div>
+            {% else %}
+              {{ review.user.name }}
+            {% endif %}
+            {{ review.title }}
           </div>
           <div class="card-body reviewBody">
             {% for i in range(0, review.rating) %}
