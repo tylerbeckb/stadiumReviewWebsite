@@ -51,11 +51,6 @@
           <!-- Card Footer-->
           <div class="card-footer">
             <!-- Decides what icon needs to be in use for the like btn -->
-            {% if likeEmpty == None %}
-              <a class="vote" id="{{ review.id }}">
-                <i id="not" class="fa-regular fa-thumbs-up"></i>
-              </a>
-            {% endif %}
             <a class="vote" id="{{ review.id }}">
               {% if review.id in likedId %}
                 <i id="liked" class="fa-solid fa-thumbs-up"></i>
