@@ -57,11 +57,14 @@ def login():
         if user:
             if check_password_hash(user.password, request.form['loginPassword']):
                 login_user(user)
+                app.logger.info("%s has logged in", user.username)
                 return redirect(url_for('profile'))
             else:
                 flash("Wrong Password")
+                app.logger.warning("Wrong password for %s", user.username)
         else:
             flash("Wrong Username")
+            app.logger.warning("Wrong username for %s", user.username)
     return render_template('login.html',
                            title = 'Login',
                            loginForm = loginForm)
@@ -69,6 +72,7 @@ def login():
 @app.route('/logout', methods = ["GET","POST"])
 @login_required
 def logout():
+    app.logger.info("%s has logged out", current_user.username)
     logout_user()
     flash("Logged Out")
     return redirect(url_for('login'))
@@ -76,6 +80,7 @@ def logout():
 @app.route('/profile', methods = ["GET","POST"])
 @login_required
 def profile():
+    app.logger.info("%s has accessed profile", current_user.username)
     editName = EditName()
     if editName.validate_on_submit():
         newName = request.form['newName']
@@ -83,8 +88,10 @@ def profile():
         if newName == sameName:
             current_user.name = newName
             db.session.commit()
+            app.logger.info("%s has changed name to %s", current_user.username, current_user.name)
         else:
             flash("The names are not the same")
+            app.logger.warning("%s tried to change names", current_user.username)
 
     likedReview = Likes.query.filter_by(userId = current_user.id)
     likedReviewEmpty = Likes.query.filter_by(userId = current_user.id).first()
@@ -112,8 +119,10 @@ def signup():
             record = User(name = signName, username = signUsername, password = generate_password_hash(signPassword))
             db.session.add(record)
             db.session.commit()
+            app.logger.info("%s signed up", signUsername)
             return redirect(url_for('login'))
         flash("Username already exisits")
+        app.logger.warning("Tried signing up but username already exists")
     return render_template('signup.html',
                            title = 'SignUp',
                            signUpForm = signUpForm)
@@ -124,7 +133,9 @@ def searchbar():
     exists = Stadiums.query.filter_by(name = stadName).first()
     if exists == None:
         flash("Stadium does not exist")
+        app.logger.warning("%s does not exist in db", stadName)
         return redirect(url_for('index'))
+    app.logger.info("%s searched for %s", current_user.username, stadName)
     reviews = Reviews.query.filter_by(stadiumId = exists.id)
     empty = Reviews.query.filter_by(stadiumId = exists.id).first()
     likes = Likes.query.all()
@@ -157,6 +168,7 @@ def review(name):
         record = Reviews(title = title, review = text, date = dateObject, rating = rating, stadiumId = stadId, userId = current_user.id)
         db.session.add(record)
         db.session.commit()
+        app.logger.info("%s added a review for %s", current_user.username, stad.name)
         return redirect(url_for('index'))
     return render_template('review.html',
                           title = 'Review',
@@ -167,10 +179,12 @@ def deleteReview(id):
     Reviews.query.filter_by(id = id).delete()
     Likes.query.filter_by(id = id).delete()
     db.session.commit() 
+    app.logger.info("%s deleted a review of id: %d", current_user.username, id)
     return redirect('/profile')
 
 @app.route('/deleteAccount', methods = ["GET", "POST"])
 def deleteAccount():
+    app.logger.info("%s deleted their account", current_user.username)
     Reviews.query.filter_by(userId = current_user.id).delete()
     User.query.filter_by(id = current_user.id).delete()
     db.session.commit()
@@ -184,8 +198,10 @@ def vote():
         record = Likes(userId = current_user.id, reviewId = reviewId)
         db.session.add(record)
         db.session.commit()
+        app.logger.info("%s liked a review of id: %d", current_user.username, reviewId)
     else:
         Likes.query.filter_by(reviewId = reviewId, userId = current_user.id).delete()
         db.session.commit()
+        app.logger.info("%s unliked a review of id: %d", current_user.username, reviewId)
     return json.dumps({'status':'OK'})
 
