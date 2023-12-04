@@ -83,6 +83,11 @@
     {% for likeReview in likedReview %}
       <div class="card profileCard">
         <div class="card-header">
+          {% if likeReview.review.user.username == current_user.username %}
+            <div class="activeUser">{{ likeReviewreview.user.name }}</div>
+          {% else %}
+            {{ likeReview.review.user.name }} <br>
+          {% endif %}
           {{ likeReview.review.title }} <br>
         </div>
         <div class="card-body reviewBody">
