@@ -1,4 +1,4 @@
-from flask import render_template, request, url_for, redirect, flash
+from flask import render_template, request, url_for, redirect, flash, session
 from app import app, db, admin
 from flask_admin.contrib.sqla import ModelView
 from .form import SearchForm, LoginForm, SignupForm, ReviewForm, EditName
@@ -49,12 +49,14 @@ def index():
     stadiums = [i.name for i in stadiums]
     # Queries 3 most liked reviews
     mostLiked = db.session.query(Likes.reviewId, func.count(Likes.id)).group_by(Likes.reviewId).order_by(func.count(Likes.id).desc()).limit(3).all()
+    empty = Likes.query.first()
     return render_template('index.html', 
                            title = 'Home',
                            searchForm = searchForm,
                            stadiums = stadiums,
                            reviews = reviews,
-                           mostLiked = mostLiked)
+                           mostLiked = mostLiked,
+                           empty = empty)
 
 # Login Page
 @app.route('/login', methods = ["GET","POST"])
@@ -162,6 +164,7 @@ def signup():
 
 # Displays reviews for a stadium and error handles search bar form
 @app.route('/searchbar', methods = ["POST"])
+@login_required
 def searchbar():
     # Checks if inputed stadium name exists
     stadName = request.form['stadName']
@@ -171,7 +174,7 @@ def searchbar():
         flash("Stadium does not exist")
         app.logger.warning("%s does not exist in db", stadName)
         return redirect(url_for('index'))
-    app.logger.info("%s searched for %s", current_user.username, stadName)
+    app.logger.info("searched for %s", stadName)
     # Queries all the reviews and likes
     reviews = Reviews.query.filter_by(stadiumId = exists.id)
     empty = Reviews.query.filter_by(stadiumId = exists.id).first()
@@ -220,7 +223,7 @@ def review(name):
 @app.route('/deleteReview<id>', methods = ["GET","POST"])
 def deleteReview(id):
     Reviews.query.filter_by(id = id).delete()
-    Likes.query.filter_by(id = id).delete()
+    Likes.query.filter_by(reviewId = id).delete()
     db.session.commit() 
     app.logger.info("%s deleted a review of id: %d", current_user.username, id)
     return redirect('/profile')
@@ -231,6 +234,7 @@ def deleteAccount():
     app.logger.info("%s deleted their account", current_user.username)
     Reviews.query.filter_by(userId = current_user.id).delete()
     User.query.filter_by(id = current_user.id).delete()
+    Likes.query.filter_by(userId = current_user.id).delete()
     db.session.commit()
     return redirect('/login')
 
