@@ -20,6 +20,7 @@ class Reviews(db.Model):
     stadiumId = db.Column(db.Integer, db.ForeignKey('stadiums.id'))
     # Sets up relation to access data in user model
     user = db.relationship('User', foreign_keys = [userId], backref = 'reviews')
+    like = db.relationship('Likes', backref = 'reviews', cascade = 'all, delete-orphan')
 
     def __repr__(self):
         return f"Review('{self.title}','{self.review}','{self.date}','{self.rating}')"
