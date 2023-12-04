@@ -36,6 +36,8 @@ nav a:hover {
     font-size: 50px;
 }
 
+/* For search bar on index */
+
 .searchBar {
     background-color: lime;
 }
@@ -52,6 +54,8 @@ nav a:hover {
     padding-left: 10px;
 }
 
+/* Layouts */
+
 .col50 {
     float: left;
     width: 50%;
@@ -63,6 +67,8 @@ nav a:hover {
     text-align: center;
     margin: auto;
 }
+
+/* Login Page */
 
 .loginShape {
     margin: auto;
@@ -122,6 +128,8 @@ nav a:hover {
     object-fit: cover;
 }
 
+/* Write a review */
+
 .reviewStyle {
     text-align: center;
 }
@@ -168,10 +176,10 @@ nav a:hover {
     color: goldenrod;
 }
 
+/* Profile page */
+
 .editName {
     background-color: whitesmoke;
-    margin-left: 15%;
-    width: 60%;
     border: solid;
     border-radius: 5px;
     padding: 2%;
@@ -180,8 +188,8 @@ nav a:hover {
 
 .profileCard {
     width: 60%;
-    margin-top: 3%;
-    margin-left: 15%;
+    margin: auto;
+    margin-bottom: 5%;
 }
 
 .deleteBtn {
@@ -204,9 +212,7 @@ nav a:hover {
     margin-top: 5%;
 }
 
-.marBot {
-    margin-bottom: 5%;
-}
+/* Most liked reviews */
 
 .mostLiked {
     width: 33%;

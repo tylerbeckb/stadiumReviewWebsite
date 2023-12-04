@@ -5,6 +5,7 @@ from flask_admin import Admin
 from flask_babel import Babel
 from logging.config import dictConfig
 
+# Logging config
 dictConfig(
     {
         "version": 1,
@@ -29,6 +30,7 @@ dictConfig(
         }
 )
 
+# Sets up app
 app = Flask(__name__)
 app.config.from_object('config')
 db = SQLAlchemy(app)

@@ -1,19 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
+<!-- Includes javascript -->
+<head><script src="{{ url_for('static',filename='javascript.js') }}"></script></head>
 <body onload="editName()">
   <br><br>
 
-  <script>
-    function editName() {
-      $(document).ready(function() {
-        $("#editForm").slideUp();
-        $("#editBtn").click(function() {
-            $("#editForm").toggle();
-        })
-      })
-    }
-  </script>
-
+  <!-- Error flash messages -->
   <div>
     {% with messages = get_flashed_messages() %}
       {% if messages %}
@@ -28,8 +20,10 @@
 
   <section class="singleCol">
     <span>Hello </span>{{ current_user.name }} <br><br>
+    <!-- Logout btn -->
     <a href="{{ url_for('logout') }}" class="btn btn-danger">Logout</a> <br>
     
+    <!-- Edit name form -->
     <div class="editName">
       <p class="card-body">Name: {{ current_user.name }}</p>
       <button class="btn btn-primary" id="editBtn">Edit</button> <br><br>
@@ -42,24 +36,30 @@
         </form>
       </div>
     </div>
+    <!-- Delete account btn -->
     <a href="{{ url_for('deleteAccount') }}" class="btn btn-danger deleteBtn">Delete Account</a>
   </section>
 
+  <!-- Displays the user reviews -->
   <section class="col50">
     <h3 class="reviewStyle mostLikedCard">Your reviews</h3>
+    <!-- Message if theres no review -->
     {% if empty == None %}
       <p class="noReviews">You have no active reviews</p>
     {% endif %}
     {% for review in reviews %}
       <div class="card profileCard">
+        <!-- Card Header-->
         <div class="card-header">
           {{ review.title }} <br>
+          <!-- Displays number of liked -->
           {% for like in countLikes %}
             {% if like.reviewId == review.id %}
               <span>Likes: </span>{{ like[1] }}
             {% endif %}
           {% endfor %}
         </div>
+        <!-- Card Body-->
         <div class="card-body reviewBody">
           {% for i in range(0, review.rating) %}
             <span class="starAlign">☆</span>
@@ -68,28 +68,36 @@
           {{ review.review }} <br> 
           Date of Visit: {{ review.date }}
         </div> 
+        <!-- Card Footer-->
         <div class="card-footer">
+          <!-- Delete review btn -->
           <a href="{{ url_for('deleteReview', id=review.id) }}" class="btn btn-primary">Delete</a>
         </div>
       </div>
       {% endfor %}
   </section>
 
+  <!-- Displays user liked reviews -->
   <section class="col50">
     <h3 class="reviewStyle mostLikedCard">Liked Reviews</h3>
+    <!-- Message if no liked reviews-->
     {% if likedReviewEmpty == None %}
       <p>No liked reviews</p>
     {% endif %}
+    <!-- One card for every review -->
     {% for likeReview in likedReview %}
       <div class="card profileCard">
+        <!-- Card Header-->
         <div class="card-header">
+          <!-- Highlights name if it equals active user-->
           {% if likeReview.review.user.username == current_user.username %}
-            <div class="activeUser">{{ likeReviewreview.user.name }}</div>
+            <div class="activeUser">{{ likeReview.review.user.name }}</div>
           {% else %}
             {{ likeReview.review.user.name }} <br>
           {% endif %}
           {{ likeReview.review.title }} <br>
         </div>
+        <!-- Card Body -->
         <div class="card-body reviewBody">
           {% for i in range(0, likeReview.review.rating) %}
             <span class="starAlign">☆</span>
@@ -98,6 +106,7 @@
           {{ likeReview.review.review }} <br> 
           Date of Visit: {{ likeReview.review.date }}
         </div> 
+        <!-- Card Footer -->
         <div class="card-footer">
           {% for like in countLikes %}
             {% if like.reviewId == likeReview.review.id %}

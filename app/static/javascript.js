@@ -37,3 +37,12 @@ $(document).ready(function() {
         });
     });
 });
+
+function editName() {
+    $(document).ready(function() {
+      $("#editForm").slideUp();
+      $("#editBtn").click(function() {
+          $("#editForm").toggle();
+      })
+    })
+  }

@@ -18,6 +18,7 @@ class Reviews(db.Model):
     rating = db.Column(db.Integer)
     userId = db.Column(db.Integer, db.ForeignKey('user.id'))
     stadiumId = db.Column(db.Integer, db.ForeignKey('stadiums.id'))
+    # Sets up relation to access data in user model
     user = db.relationship('User', foreign_keys = [userId], backref = 'reviews')
 
     def __repr__(self):
@@ -35,4 +36,5 @@ class Likes(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     userId = db.Column(db.Integer, db.ForeignKey('user.id'))
     reviewId = db.Column(db.Integer, db.ForeignKey('reviews.id'))
+    # Sets up relation to access data in review model
     review = db.relationship('Reviews', foreign_keys = [reviewId], backref = 'likes')

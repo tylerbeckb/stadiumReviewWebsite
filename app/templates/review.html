@@ -2,9 +2,11 @@
 {% block content %}
   <br><br>
   <body class="reviewBackground">
+    <!-- Allows user to write a review -->
     <section class="loginShape reviewColour">
       <div class="reviewStyle">
         <span>Rate the Stadium</span>
+        <!-- Review Form -->
         <form method="POST" name="reviewForm">
           {{ reviewForm.hidden_tag() }}
           {% for subfield in reviewForm.rating %}
