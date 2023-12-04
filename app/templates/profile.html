@@ -93,6 +93,13 @@
           {{ likeReview.review.review }} <br> 
           Date of Visit: {{ likeReview.review.date }}
         </div> 
+        <div class="card-footer">
+          {% for like in countLikes %}
+            {% if like.reviewId == likeReview.review.id %}
+              <span>Likes: </span>{{ like[1] }}
+            {% endif %}
+          {% endfor %}
+        </div>
       </div>
     {% endfor %}
   </section>
