@@ -51,6 +51,7 @@
       <div class="card profileCard">
         <!-- Card Header-->
         <div class="card-header">
+          {{ review.stadium.name }} <br>
           {{ review.title }} <br>
           <!-- Displays number of liked -->
           {% for like in countLikes %}
@@ -66,7 +67,7 @@
           {% endfor %} 
           <br>
           {{ review.review }} <br> 
-          Date of Visit: {{ review.date }}
+          Date of Visit: {{ review.date.strftime('%Y-%m-%d') }}
         </div> 
         <!-- Card Footer-->
         <div class="card-footer">
@@ -95,7 +96,8 @@
           {% else %}
             {{ likeReview.review.user.name }} <br>
           {% endif %}
-          {{ likeReview.review.title }} <br>
+          {{ likeReview.review.stadium.name }} <br>
+          {{ likeReview.review.title }}
         </div>
         <!-- Card Body -->
         <div class="card-body reviewBody">
@@ -104,7 +106,7 @@
           {% endfor %} 
           <br>
           {{ likeReview.review.review }} <br> 
-          Date of Visit: {{ likeReview.review.date }}
+          Date of Visit: {{ likeReview.review.date.strftime('%Y-%m-%d') }}
         </div> 
         <!-- Card Footer -->
         <div class="card-footer">
