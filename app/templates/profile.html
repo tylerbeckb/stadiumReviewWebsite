@@ -28,7 +28,7 @@
       <p class="card-body">Name: {{ current_user.name }}</p>
       <button class="btn btn-primary" id="editBtn">Edit</button> <br><br>
       <div id="editForm">
-        <form method="POST" name="editName">
+        <form method="POST" name="editName" id="edit-name">
           {{ editName.hidden_tag() }}
           {{ editName.newName(class_='loginFormStyle') }} <br>
           {{ editName.sameName(class_='loginFormStyle') }} <br>

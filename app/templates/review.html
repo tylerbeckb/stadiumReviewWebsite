@@ -7,7 +7,7 @@
       <div class="reviewStyle">
         <span>Rate the Stadium</span>
         <!-- Review Form -->
-        <form method="POST" name="reviewForm">
+        <form method="POST" name="reviewForm" id="review-stadium">
           {{ reviewForm.hidden_tag() }}
           {% for subfield in reviewForm.rating %}
           <tr>
