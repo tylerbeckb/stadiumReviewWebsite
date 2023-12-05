@@ -81,7 +81,7 @@ def login():
         # Error message for wrong username
         else:
             flash("Wrong Username")
-            app.logger.warning("Wrong username for %s", user.username)
+            app.logger.warning("Wrong username")
     return render_template('login.html',
                            title = 'Login',
                            loginForm = loginForm)
@@ -185,6 +185,7 @@ def searchbar():
     for like in currentUserLike:
         likedId.append(like.review.id)
     likeEmpty = Likes.query.first()
+    # Finds the average rating
     total = 0
     count = 0
     avgRating = 0
