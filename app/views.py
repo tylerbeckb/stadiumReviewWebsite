@@ -1,4 +1,4 @@
-from flask import render_template, request, url_for, redirect, flash, session
+from flask import render_template, request, url_for, redirect, flash
 from app import app, db, admin
 from flask_admin.contrib.sqla import ModelView
 from .form import SearchForm, LoginForm, SignupForm, ReviewForm, EditName
@@ -185,6 +185,14 @@ def searchbar():
     for like in currentUserLike:
         likedId.append(like.review.id)
     likeEmpty = Likes.query.first()
+    total = 0
+    count = 0
+    avgRating = 0
+    if empty != None:
+        for review in reviews:
+            total += review.rating
+            count += 1
+        avgRating = total / count
     return render_template('stadReviews.html',
                            title = stadName,
                            stadName = stadName,
@@ -192,7 +200,8 @@ def searchbar():
                            empty = empty,
                            likes = likes,
                            likeEmpty = likeEmpty,
-                           likedId = likedId)
+                           likedId = likedId,
+                           avgRating = avgRating)
 
 # Writes a review
 @app.route('/review<name>', methods = ["GET","POST"])

@@ -11,6 +11,7 @@
     <!-- Btn to write a review -->
     <section class="singleCol">
       <h2>{{ stadName }}</h2>
+      <p>Average Rating: {{ avgRating }}</p>
       <div class="writeBtn">
         <a href="{{ url_for('review', name = stadName) }}">Write a Review</a>
       </div>
