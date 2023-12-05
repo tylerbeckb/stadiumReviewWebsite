@@ -45,7 +45,7 @@
   <section>
     <h3 class="mostLikedTitle">Most Liked</h3>
     <!-- Message if no liked reviews -->
-    {% if not mostLiked %}
+    {% if empty == None %}
       <p class="mostLikedTitle">No reviews have been liked</p>
     {% endif %}
     {% for review in reviews %}
@@ -59,9 +59,10 @@
                 {% if review.user.username == current_user.username %}
                   <div class="activeUser">{{ review.user.name }}</div>
                 {% else %}
-                  {{ review.user.name }}
+                  {{ review.user.name }} <br>
                 {% endif %}
-                {{ review.title }}
+                {{ review.stadium.name }} <br>
+                {{ review.title }} 
               </div>
               <!-- Card Body -->
               <div class="card-body reviewBody">
@@ -70,7 +71,7 @@
                 {% endfor %} 
                 <br>
                 {{ review.review }} <br> 
-                Date of Visit: {{ review.date }}
+                Date of Visit: {{ review.date.strftime('%Y-%m-%d') }}
               </div> 
               <!-- Card Footer -->
               <div class="card-footer">
