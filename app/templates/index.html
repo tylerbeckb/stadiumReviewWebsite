@@ -51,7 +51,7 @@
     {% for review in reviews %}
       {% for like in mostLiked %}
         {% if review.id == like[0] %}
-          <div class="mostLiked">
+          <div class="mostLiked" tabindex="2">
             <div class="card mostLikedCard">
               <!-- Card Header -->
               <div class="card-header">

@@ -48,7 +48,7 @@
       <p class="noReviews">You have no active reviews</p>
     {% endif %}
     {% for review in reviews %}
-      <div class="card profileCard">
+      <div class="card profileCard" tabindex="3">
         <!-- Card Header-->
         <div class="card-header">
           {{ review.stadium.name }} <br>
@@ -87,7 +87,7 @@
     {% endif %}
     <!-- One card for every review -->
     {% for likeReview in likedReview %}
-      <div class="card profileCard">
+      <div class="card profileCard" tabindex="3">
         <!-- Card Header-->
         <div class="card-header">
           <!-- Highlights name if it equals active user-->
