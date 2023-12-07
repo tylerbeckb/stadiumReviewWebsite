@@ -83,7 +83,7 @@
     <h3 class="reviewStyle mostLikedCard">Liked Reviews</h3>
     <!-- Message if no liked reviews-->
     {% if likedReviewEmpty == None %}
-      <p>No liked reviews</p>
+      <p class="noReviews">No liked reviews</p>
     {% endif %}
     <!-- One card for every review -->
     {% for likeReview in likedReview %}

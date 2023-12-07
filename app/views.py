@@ -48,7 +48,8 @@ def index():
     stadiums = Stadiums.query.all()
     stadiums = [i.name for i in stadiums]
     # Queries 3 most liked reviews
-    mostLiked = db.session.query(Likes.reviewId, func.count(Likes.id)).group_by(Likes.reviewId).order_by(func.count(Likes.id).desc()).limit(3).all()
+    mostLiked = db.session.query(Likes.reviewId, func.count(Likes.id)).\
+        group_by(Likes.reviewId).order_by(func.count(Likes.id).desc()).limit(3).all()
     empty = Likes.query.first()
     return render_template('index.html', 
                            title = 'Home',
@@ -220,7 +221,8 @@ def review(name):
         date = request.form['date']
         dateObject = datetime.strptime(date, '%Y-%m-%d')
         text = request.form['reviewText']
-        record = Reviews(title = title, review = text, date = dateObject, rating = rating, stadiumId = stadId, userId = current_user.id)
+        record = Reviews(title = title, review = text, date = dateObject, rating = rating, stadiumId = stadId,
+                                userId = current_user.id)
         db.session.add(record)
         db.session.commit()
         app.logger.info("%s added a review for %s", current_user.username, stad.name)
