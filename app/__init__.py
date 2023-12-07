@@ -1,4 +1,3 @@
-from app import views, models
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -41,3 +40,5 @@ migrate = Migrate(app, db, render_as_batch=True)
 
 admin = Admin(app, template_mode='bootstrap4')
 babel = Babel(app)
+
+from app import views, models
