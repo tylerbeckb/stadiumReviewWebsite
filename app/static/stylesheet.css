@@ -226,3 +226,30 @@ nav a:hover {
 .mostLikedTitle {
     margin: 3%;
 }
+
+/* Responsiveness */
+@media only screen and (max-width: 900px) {
+    * {
+        font-size: 15px
+    }
+
+    nav a {
+        font-size: 20px
+    }
+
+    nav {
+        height: 50px;
+    }
+
+    .col50 {
+        width: 100%;
+    }
+
+    .mostLiked {
+        width: 100%;
+    }
+
+    .card-body {
+        font-size: 15px;
+    }
+}
